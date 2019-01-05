@@ -183,10 +183,7 @@
                 "ignore-pattern": "^import |^export {(.*?)}"
             }
         ],
-        "space-before-function-paren": [
-            true,
-            "always"
-        ],
+        "space-before-function-paren": false,
         // Not doing
         "ban-comma-operator": false,
         "ordered-imports": false,

@@ -14,6 +14,7 @@ export const build = async () => {
     const app = new ApolloServer({
         schema,
         playground: true, // TODO: Add to config
+        tracing: true,
     });
 
     return app;
