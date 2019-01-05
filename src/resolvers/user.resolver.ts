@@ -1,10 +1,11 @@
 import { User } from "../models/user.model";
-import { Resolver, Query } from "type-graphql";
+import { Resolver, Query, Arg } from "type-graphql";
+import { PaginationInput } from "../inputs/pagination.input";
 
 @Resolver(of => User)
 export class UserResolver {
     @Query(returns => [User])
-    async users(): Promise<User[] | undefined> {
-        return User.getAllUsers();
+    async users(@Arg("pagination", { nullable: true }) pagination?: PaginationInput): Promise<User[] | undefined> {
+        return User.getAllUsers(pagination);
     }
 }

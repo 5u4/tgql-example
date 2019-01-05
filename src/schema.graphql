@@ -3,6 +3,11 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+input PaginationInput {
+  page: Int = 1
+  perPage: Int = 30
+}
+
 # Post
 type Post {
   id: ID!
@@ -11,8 +16,8 @@ type Post {
 }
 
 type Query {
-  posts: [Post!]!
-  users: [User!]!
+  posts(pagination: PaginationInput): [Post!]!
+  users(pagination: PaginationInput): [User!]!
 }
 
 # User
