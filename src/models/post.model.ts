@@ -14,9 +14,9 @@ export class Post {
     createdAt: number;
 
     static async getAllPosts(pagination: PaginationInput = new PaginationInput()): Promise<Post[] | undefined> {
-        return NeoDB.queryAndTransform<Post>(`MATCH (n:Post) RETURN n SKIP {offset} LIMIT {limit}`, {
+        return NeoDB.collection<Post>(await NeoDB.query(`MATCH (n:Post) RETURN n SKIP {offset} LIMIT {limit}`, {
             offset: pagination.offset(),
             limit: pagination.limit(),
-        });
+        }));
     }
 }

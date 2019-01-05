@@ -3,6 +3,10 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type Mutation {
+  register(password: String!, email: String!, username: String!): User!
+}
+
 input PaginationInput {
   page: Int = 1
   perPage: Int = 30
