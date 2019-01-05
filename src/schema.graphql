@@ -3,13 +3,21 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+# Post
+type Post {
+  id: ID!
+  content: String!
+  createdAt: Int!
+}
+
 type Query {
-  user: User!
+  posts: [Post!]!
+  users: [User!]!
 }
 
 # User
 type User {
-  id: String!
+  id: ID!
   username: String!
   email: String!
   createdAt: Int!
