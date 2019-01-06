@@ -3,8 +3,12 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
-type Mutation {
-  register(password: String!, email: String!, username: String!): User!
+# Movie
+type Movie {
+  identity: ID!
+  title: String!
+  released: Int!
+  tagline: String
 }
 
 input PaginationInput {
@@ -12,22 +16,14 @@ input PaginationInput {
   perPage: Int = 30
 }
 
-# Post
-type Post {
-  id: ID!
-  content: String!
-  createdAt: Int!
+# Person
+type Person {
+  identity: ID!
+  name: String!
+  born: String
 }
 
 type Query {
-  posts(pagination: PaginationInput): [Post!]!
-  users(pagination: PaginationInput): [User!]!
-}
-
-# User
-type User {
-  id: ID!
-  username: String!
-  email: String!
-  createdAt: Int!
+  movies(pagination: PaginationInput): [Movie!]!
+  people(pagination: PaginationInput): [Person!]!
 }
