@@ -1,6 +1,7 @@
 import { Node, Record, Relationship } from "neo4j-driver/types/v1";
 import { Field, Int, ID, ObjectType } from "type-graphql";
 import { PersonMovieRelation } from "../enums/personMovieRelation.enum";
+import { MovieFiltersInput } from "../inputs/movieFilters.input";
 import { PaginationInput } from "../inputs/pagination.input";
 import { NeoDB } from "../utils/neo4j";
 import { Person } from "./person.model";
@@ -33,8 +34,43 @@ export class Movie {
         }));
     }
 
-    static async all(pagination: PaginationInput = new PaginationInput()): Promise<Movie[] | undefined> {
-        return NeoDB.collection<Movie>(await NeoDB.query(`MATCH (m:Movie) RETURN m SKIP {offset} LIMIT {limit}`, {
+    static async all(
+        pagination: PaginationInput = new PaginationInput(),
+        filters: MovieFiltersInput = new MovieFiltersInput()
+    ): Promise<Movie[] | undefined> {
+        let query = `MATCH (m:Movie)`;
+
+        const whereClauses: string[] = [];
+
+        if (filters.titleContains) {
+            // Indexing does not work when toLower is been used
+            whereClauses.push(`toLower(m.title) CONTAINS toLower('${filters.titleContains}')`);
+        }
+
+        if (filters.taglineContains) {
+            // Indexing does not work when toLower is been used
+            whereClauses.push(`toLower(m.tagline) CONTAINS toLower('${filters.taglineContains}')`);
+        }
+
+        if (filters.releasedBefore) {
+            whereClauses.push(`m.released < ${filters.releasedBefore}`);
+        }
+
+        if (filters.releasedAfter) {
+            whereClauses.push(`m.released >= ${filters.releasedAfter}`);
+        }
+
+        if (whereClauses.length > 0) {
+            query += `
+                WHERE ${whereClauses.join(` ${filters.operator} `)}
+            `;
+        }
+
+        query += `
+            RETURN m SKIP {offset} LIMIT {limit}
+        `;
+
+        return NeoDB.collection<Movie>(await NeoDB.query(query, {
             offset: pagination.offset(),
             limit: pagination.limit(),
         }));

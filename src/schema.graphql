@@ -18,6 +18,14 @@ type Movie {
   people(pagination: PaginationInput, relation: PersonMovieRelation = ALL): [Person!]!
 }
 
+input MovieFiltersInput {
+  titleContains: String
+  taglineContains: String
+  releasedBefore: Int
+  releasedAfter: Int
+  operator: WhereOperator = AND
+}
+
 input PaginationInput {
   page: Int = 1
   perPage: Int = 30
@@ -37,6 +45,13 @@ type Person {
   movies(pagination: PaginationInput, relation: PersonMovieRelation = ALL): [Movie!]!
 }
 
+input PersonFiltersInput {
+  nameContains: String
+  bornBefore: Int
+  bornAfter: Int
+  operator: WhereOperator = AND
+}
+
 enum PersonMovieRelation {
   ACTED_IN
   DIRECTED
@@ -48,7 +63,12 @@ enum PersonMovieRelation {
 
 type Query {
   movie(identity: String!): Movie!
-  movies(pagination: PaginationInput): [Movie!]!
+  movies(filters: MovieFiltersInput, pagination: PaginationInput): [Movie!]!
   person(identity: String!): Person!
   people(filters: PersonFiltersInput, pagination: PaginationInput): [Person!]!
+}
+
+enum WhereOperator {
+  AND
+  OR
 }

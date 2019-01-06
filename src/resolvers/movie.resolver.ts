@@ -1,5 +1,6 @@
 import { Arg, FieldResolver, Query, Resolver, Root } from "type-graphql";
 import { PersonMovieRelation } from "../enums/personMovieRelation.enum";
+import { MovieFiltersInput } from "../inputs/movieFilters.input";
 import { PaginationInput } from "../inputs/pagination.input";
 import { Movie } from "../models/movie.model";
 import { Person } from "../models/person.model";
@@ -12,8 +13,11 @@ export class UserResolver {
     }
 
     @Query(returns => [Movie])
-    async movies(@Arg("pagination", { nullable: true }) pagination?: PaginationInput): Promise<Movie[] | undefined> {
-        return Movie.all(pagination);
+    async movies(
+        @Arg("pagination", { nullable: true }) pagination?: PaginationInput,
+        @Arg("filters", { nullable: true }) filters?: MovieFiltersInput
+    ): Promise<Movie[] | undefined> {
+        return Movie.all(pagination, filters);
     }
 
     @FieldResolver(returns => [Person])

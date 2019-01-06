@@ -2,6 +2,7 @@ import { Node, Record, Relationship } from "neo4j-driver/types/v1";
 import { Field, ID, ObjectType } from "type-graphql";
 import { PersonMovieRelation } from "../enums/personMovieRelation.enum";
 import { PaginationInput } from "../inputs/pagination.input";
+import { PersonFiltersInput } from "../inputs/personFilters.input";
 import { NeoDB } from "../utils/neo4j";
 import { Movie } from "./movie.model";
 
@@ -30,8 +31,40 @@ export class Person {
         }));
     }
 
-    static async all(pagination: PaginationInput = new PaginationInput()): Promise<Person[] | undefined> {
-        return NeoDB.collection<Person>(await NeoDB.query(`MATCH (p:Person) RETURN p SKIP {offset} LIMIT {limit}`, {
+    static async all(
+        pagination: PaginationInput = new PaginationInput(),
+        filters: PersonFiltersInput = new PersonFiltersInput()
+    ): Promise<Person[] | undefined> {
+        let query = `
+            MATCH (p:Person)
+        `;
+
+        const whereClauses: string[] = [];
+
+        if (filters.nameContains) {
+            // Indexing does not work when toLower is been used
+            whereClauses.push(`toLower(p.name) CONTAINS toLower('${filters.nameContains}')`);
+        }
+
+        if (filters.bornBefore) {
+            whereClauses.push(`p.born < ${filters.bornBefore}`);
+        }
+
+        if (filters.bornAfter) {
+            whereClauses.push(`p.born >= ${filters.bornAfter}`);
+        }
+
+        if (whereClauses.length > 0) {
+            query += `
+                WHERE ${whereClauses.join(` ${filters.operator} `)}
+            `;
+        }
+
+        query += `
+            RETURN p SKIP {offset} LIMIT {limit}
+        `;
+
+        return NeoDB.collection<Person>(await NeoDB.query(query, {
             offset: pagination.offset(),
             limit: pagination.limit(),
         }));
