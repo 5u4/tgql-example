@@ -5,4 +5,4 @@ export enum WhereOperator {
     OR = "OR",
 }
 
-registerEnumType(WhereOperator, { name: "WhereOperator" });
+registerEnumType(WhereOperator, { name: "WhereOperator", description: "The where clause operators" });

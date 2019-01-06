@@ -7,25 +7,28 @@ import { Person } from "../models/person.model";
 
 @Resolver(of => Movie)
 export class UserResolver {
-    @Query(returns => Movie)
+    @Query(returns => Movie, { description: "Get a specific movie with movie's graph id" })
     async movie(@Arg("identity") identity: string): Promise<Movie | undefined> {
         return Movie.find(identity);
     }
 
-    @Query(returns => [Movie])
+    @Query(returns => [Movie], { description: "Get movies with pagination and filters" })
     async movies(
-        @Arg("pagination", { nullable: true }) pagination?: PaginationInput,
-        @Arg("filters", { nullable: true }) filters?: MovieFiltersInput
+        @Arg("pagination", { nullable: true, description: "The movies pagination" }) pagination?: PaginationInput,
+        @Arg("filters", { nullable: true, description: "The movies filters" }) filters?: MovieFiltersInput
     ): Promise<Movie[] | undefined> {
         return Movie.all(pagination, filters);
     }
 
-    @FieldResolver(returns => [Person])
+    @FieldResolver(returns => [Person], { description: "Get movie related people" })
     async people(
         @Root() movie: Movie,
-        @Arg("relation", type => PersonMovieRelation, { nullable: true, defaultValue: PersonMovieRelation.ALL })
+        @Arg("relation", type => PersonMovieRelation, {
+            nullable: true, defaultValue: PersonMovieRelation.ALL,
+            description: "The movie people relation",
+        })
         relation: PersonMovieRelation,
-        @Arg("pagination", { nullable: true }) pagination?: PaginationInput
+        @Arg("pagination", { nullable: true, description: "The movie people pagination" }) pagination?: PaginationInput
     ): Promise<Person[] | undefined> {
         return Movie.people(movie.identity, relation, pagination);
     }

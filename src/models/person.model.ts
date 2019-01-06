@@ -8,13 +8,13 @@ import { Movie } from "./movie.model";
 
 @ObjectType({ description: "Person" })
 export class Person {
-    @Field(type => ID)
+    @Field(type => ID, { description: "The person graph id in Neo4J" })
     identity: string;
 
-    @Field()
+    @Field({ description: "The name of the person" })
     name: string;
 
-    @Field({ nullable: true })
+    @Field({ nullable: true, description: "The year of the person born" })
     born?: string;
 
     @Field(type => [String], { nullable: true, description: "Person role in the movie. Only exists in nested query" })
@@ -25,12 +25,23 @@ export class Person {
     })
     movieRelation?: PersonMovieRelation;
 
+    /**
+     * Find a person with its graph id in Neo4J
+     *
+     * @param identity Person graph id in Neo4J
+     */
     static async find(identity: string) {
         return NeoDB.transform<Person>(await NeoDB.query(`MATCH (p:Person) WHERE ID(p) = {id} RETURN p`, {
             id: +identity,
         }));
     }
 
+    /**
+     * List all people with pagination and filters
+     *
+     * @param pagination Paginations for people
+     * @param filters Filters that filter people
+     */
     static async all(
         pagination: PaginationInput = new PaginationInput(),
         filters: PersonFiltersInput = new PersonFiltersInput()
@@ -70,6 +81,13 @@ export class Person {
         }));
     }
 
+    /**
+     * Get a person's related movies
+     *
+     * @param id The person graph id in Neo4J
+     * @param relation The specific relation between person and movie
+     * @param pagination The person movies pagination
+     */
     static async movies(
         id: string,
         relation: PersonMovieRelation = PersonMovieRelation.ALL,

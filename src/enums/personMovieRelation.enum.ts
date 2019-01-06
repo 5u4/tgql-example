@@ -9,4 +9,4 @@ export enum PersonMovieRelation {
     ALL = "ALL",
 }
 
-registerEnumType(PersonMovieRelation, { name: "PersonMovieRelation" });
+registerEnumType(PersonMovieRelation, { name: "PersonMovieRelation", description: "Person and movie relations" });
