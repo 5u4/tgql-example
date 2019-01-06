@@ -1,8 +1,8 @@
-import { ObjectType, Field, Int, ID } from "type-graphql";
-import { NeoDB } from "../utils/neo4j";
-import { PaginationInput } from "../inputs/pagination.input";
-import * as uuid from "uuid";
 import * as bcrypt from "bcryptjs";
+import { Field, Int, ID, ObjectType } from "type-graphql";
+import * as uuid from "uuid";
+import { PaginationInput } from "../inputs/pagination.input";
+import { NeoDB } from "../utils/neo4j";
 
 @ObjectType({ description: "User" })
 export class User {

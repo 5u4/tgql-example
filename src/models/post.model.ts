@@ -1,6 +1,6 @@
-import { ObjectType, Field, ID, Int } from "type-graphql";
-import { NeoDB } from "../utils/neo4j";
+import { Field, Int, ID, ObjectType } from "type-graphql";
 import { PaginationInput } from "../inputs/pagination.input";
+import { NeoDB } from "../utils/neo4j";
 
 @ObjectType({ description: "Post" })
 export class Post {

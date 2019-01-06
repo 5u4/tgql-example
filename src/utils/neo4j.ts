@@ -1,5 +1,5 @@
 import { v1 } from "neo4j-driver";
-import { Record, Node, StatementResult } from "neo4j-driver/types/v1";
+import { Node, Record, StatementResult } from "neo4j-driver/types/v1";
 
 const db = v1.driver("bolt://localhost", v1.auth.basic("neo4j", "abcd"), {
     disableLosslessIntegers: true,

@@ -1,6 +1,6 @@
-import { User } from "../models/user.model";
-import { Resolver, Query, Arg, Mutation } from "type-graphql";
+import { Arg, Mutation, Query, Resolver } from "type-graphql";
 import { PaginationInput } from "../inputs/pagination.input";
+import { User } from "../models/user.model";
 
 @Resolver(of => User)
 export class UserResolver {

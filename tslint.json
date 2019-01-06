@@ -153,6 +153,13 @@
             }
         ],
         "no-var-requires": true,
+        "ordered-imports": [
+            true,
+            {
+                "import-sources-order": "lowercase-last",
+                "named-imports-order": "lowercase-first"
+            }
+        ],
         "trailing-comma": [
             true,
             {
@@ -186,7 +193,6 @@
         "space-before-function-paren": false,
         // Not doing
         "ban-comma-operator": false,
-        "ordered-imports": false,
         "max-classes-per-file": false,
         "member-ordering": false,
         "no-angle-bracket-type-assertion": false,

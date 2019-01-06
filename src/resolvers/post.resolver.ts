@@ -1,6 +1,6 @@
-import { Post } from "../models/post.model";
-import { Resolver, Query, Arg } from "type-graphql";
+import { Arg, Query, Resolver } from "type-graphql";
 import { PaginationInput } from "../inputs/pagination.input";
+import { Post } from "../models/post.model";
 
 @Resolver(of => Post)
 export class UserResolver {
