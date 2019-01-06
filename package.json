@@ -22,15 +22,11 @@
   "homepage": "https://github.com/senhungwong/tgql-example#readme",
   "dependencies": {
     "apollo-server": "^2.3.1",
-    "bcryptjs": "^2.4.3",
     "neo4j-driver": "^1.7.2",
     "reflect-metadata": "^0.1.12",
-    "type-graphql": "^0.16.0",
-    "uuid": "^3.3.2"
+    "type-graphql": "^0.16.0"
   },
   "devDependencies": {
-    "@types/bcryptjs": "^2.4.2",
-    "@types/uuid": "^3.4.4",
     "nodemon": "^1.18.9",
     "ts-node": "^7.0.1",
     "typescript": "^3.2.2"

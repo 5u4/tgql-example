@@ -29,17 +29,17 @@ export class NeoDB {
         } as unknown as T;
     }
 
-    static transform<T>(results: StatementResult) {
+    static transform<T>(results: StatementResult, _transform = this._transform) {
         const result = results.records.pop();
 
         if (!result) {
             return undefined;
         }
 
-        return this._transform<T>(result);
+        return _transform<T>(result);
     }
 
-    static collection<T>(results: StatementResult) {
-        return results.records.map(result => this._transform<T>(result));
+    static collection<T>(results: StatementResult, _transform = this._transform) {
+        return results.records.map(result => _transform<T>(result));
     }
 }

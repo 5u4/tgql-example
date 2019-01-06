@@ -9,6 +9,13 @@ type Movie {
   title: String!
   released: Int!
   tagline: String
+
+  # Person role in the movie. Only exists in nested query
+  roles: [String!]
+
+  # Person relation with the movie. Only exists in nested query
+  personRelation: PersonMovieRelation
+  people(pagination: PaginationInput, relation: PersonMovieRelation = ALL): [Person!]!
 }
 
 input PaginationInput {
@@ -21,6 +28,22 @@ type Person {
   identity: ID!
   name: String!
   born: String
+
+  # Person role in the movie. Only exists in nested query
+  roles: [String!]
+
+  # Person relation with the movie. Only exists in nested query
+  movieRelation: PersonMovieRelation
+  movies(pagination: PaginationInput, relation: PersonMovieRelation = ALL): [Movie!]!
+}
+
+enum PersonMovieRelation {
+  ACTED_IN
+  DIRECTED
+  PRODUCED
+  WROTE
+  REVIEWED
+  ALL
 }
 
 type Query {
