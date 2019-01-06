@@ -6,9 +6,14 @@ import { Person } from "../models/person.model";
 
 @Resolver(of => Movie)
 export class UserResolver {
+    @Query(returns => Movie)
+    async movie(@Arg("identity") identity: string): Promise<Movie | undefined> {
+        return Movie.find(identity);
+    }
+
     @Query(returns => [Movie])
     async movies(@Arg("pagination", { nullable: true }) pagination?: PaginationInput): Promise<Movie[] | undefined> {
-        return Movie.getAllMovies(pagination);
+        return Movie.all(pagination);
     }
 
     @FieldResolver(returns => [Person])
@@ -18,6 +23,6 @@ export class UserResolver {
         relation: PersonMovieRelation,
         @Arg("pagination", { nullable: true }) pagination?: PaginationInput
     ): Promise<Person[] | undefined> {
-        return Movie.getMoviePeople(movie.identity, relation, pagination);
+        return Movie.people(movie.identity, relation, pagination);
     }
 }

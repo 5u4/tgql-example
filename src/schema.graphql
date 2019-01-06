@@ -47,6 +47,8 @@ enum PersonMovieRelation {
 }
 
 type Query {
+  movie(identity: String!): Movie!
   movies(pagination: PaginationInput): [Movie!]!
-  people(pagination: PaginationInput): [Person!]!
+  person(identity: String!): Person!
+  people(filters: PersonFiltersInput, pagination: PaginationInput): [Person!]!
 }

@@ -24,14 +24,20 @@ export class Person {
     })
     movieRelation?: PersonMovieRelation;
 
-    static async getAllPeople(pagination: PaginationInput = new PaginationInput()): Promise<Person[] | undefined> {
+    static async find(identity: string) {
+        return NeoDB.transform<Person>(await NeoDB.query(`MATCH (p:Person) WHERE ID(p) = {id} RETURN p`, {
+            id: +identity,
+        }));
+    }
+
+    static async all(pagination: PaginationInput = new PaginationInput()): Promise<Person[] | undefined> {
         return NeoDB.collection<Person>(await NeoDB.query(`MATCH (p:Person) RETURN p SKIP {offset} LIMIT {limit}`, {
             offset: pagination.offset(),
             limit: pagination.limit(),
         }));
     }
 
-    static async getPersonMovies(
+    static async movies(
         id: string,
         relation: PersonMovieRelation = PersonMovieRelation.ALL,
         pagination: PaginationInput = new PaginationInput()
