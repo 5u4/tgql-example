@@ -1,9 +1,12 @@
 import { v1 } from "neo4j-driver";
 import { Node, Record, StatementResult } from "neo4j-driver/types/v1";
+import { config } from "../config/config";
 
-const db = v1.driver("bolt://localhost", v1.auth.basic("neo4j", "abcd"), {
-    disableLosslessIntegers: true,
-});
+const db = v1.driver(
+    config.database.neo4j.url,
+    v1.auth.basic(config.database.neo4j.user, config.database.neo4j.password),
+    { disableLosslessIntegers: true }
+);
 
 interface QueryOptions {
     mode?: "READ" | "WRITE";

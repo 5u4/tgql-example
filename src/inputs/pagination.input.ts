@@ -1,5 +1,6 @@
 import { Max, Min } from "class-validator";
 import { Field, InputType, Int } from "type-graphql";
+import { config } from "../config/config";
 
 @InputType({ description: "The general pagination inputs" })
 export class PaginationInput {
@@ -8,8 +9,8 @@ export class PaginationInput {
     page = 1;
 
     @Field(type => Int, { description: "The maximum amount in each page" })
-    @Min(1) @Max(100) // TODO: Add maximum to config
-    perPage = 30; // TODO: Add default offset to config
+    @Min(1) @Max(config.graphql.pagination.maxPerPage)
+    perPage = config.graphql.pagination.defaultPerPage;
 
     limit = () => this.perPage;
     offset = () => (this.page - 1) * this.perPage;
