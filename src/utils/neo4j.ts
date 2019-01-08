@@ -1,6 +1,6 @@
 import { v1 } from "neo4j-driver";
 import { Node, Record, StatementResult } from "neo4j-driver/types/v1";
-import { config } from "../config/config";
+import { config } from "../config";
 
 const db = v1.driver(
     config.database.neo4j.url,

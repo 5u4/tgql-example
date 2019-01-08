@@ -1,6 +1,6 @@
 import { Max, Min } from "class-validator";
 import { Field, InputType, Int } from "type-graphql";
-import { config } from "../config/config";
+import { config } from "../config";
 
 @InputType({ description: "The general pagination inputs" })
 export class PaginationInput {

@@ -1,6 +1,6 @@
 import { ApolloServer } from "apollo-server";
 import { buildSchema } from "type-graphql";
-import { config } from "../config/config";
+import { config } from "../config";
 
 export const build = async () => {
     const schema = await buildSchema({
